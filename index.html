@@ -1,0 +1,1516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Same Day Record Check</title>
+    <link rel="icon" href="https://i.ibb.co/W48rv8hd/icon.png" type="image/png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --primary-light: #a29bfe;
+            --primary-dark: #5649c0;
+            --success: #00b894;
+            --success-light: rgba(0, 184, 148, 0.1);
+            --danger: #ff7675;
+            --danger-light: rgba(255, 118, 117, 0.1);
+            --warning: #fdcb6e;
+            --warning-light: rgba(253, 203, 110, 0.1);
+            --secondary: #636e72;
+            --secondary-light: rgba(99, 110, 114, 0.1);
+            --text-primary: #2d3436;
+            --text-secondary: #636e72;
+            --bg-color: #f9f9f9;
+            --card-bg: #ffffff;
+            --border-color: #dfe6e9;
+            --footer-color: #b2bec3;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            --glow: 0 0 15px rgba(108, 92, 231, 0.3);
+        }
+
+        [data-theme="dark"] {
+            --primary: #7d6bff;
+            --primary-light: #5a4ac5;
+            --primary-dark: #9a86ff;
+            --success: #039680;
+            --success-light: rgba(85, 239, 196, 0.15);
+            --danger: #ff7675;
+            --danger-light: rgba(255, 118, 117, 0.15);
+            --warning: #faac05;
+            --warning-light: rgba(255, 234, 167, 0.15);
+            --secondary: #b2bec3;
+            --secondary-light: rgba(178, 190, 195, 0.15);
+            --text-primary: #f5f6fa;
+            --text-secondary: #dfe6e9;
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --border-color: #2d3436;
+            --footer-color: #636e72;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            --glow: 0 0 15px rgba(125, 107, 255, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header Styles */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            padding-top: 20px;
+        }
+
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-weight: 400;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: var(--transition);
+            color: var(--text-primary);
+            z-index: 100;
+        }
+
+        .theme-toggle:hover {
+            background: var(--primary-light);
+            color: white;
+            transform: rotate(30deg);
+        }
+
+        /* Tool Container */
+        .tool-container {
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        /* Input Section */
+        .input-section {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .input-box {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .input-box h3 {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        /* Paste Container */
+        .paste-container {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .paste-area {
+            min-height: 120px;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 15px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-break: break-word;
+            transition: var(--transition);
+        }
+
+        .paste-area:empty:before {
+            content: attr(placeholder);
+            color: var(--text-secondary);
+            opacity: 0.7;
+            pointer-events: none;
+            display: block;
+        }
+
+        .paste-area:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2);
+        }
+
+        .paste-icon {
+            position: absolute;
+            bottom: 13px;
+            right: 13px;
+            background: var(--primary);
+            color: white;
+            padding: 15px 15px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: var(--transition);
+        }
+
+        .paste-icon:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Toolbar */
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            padding: 21px 18px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            transition: var(--transition);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #00a884;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 184, 148, 0.3);
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #e66767;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 118, 117, 0.3);
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: var(--text-primary);
+        }
+
+        .btn-warning:hover {
+            background: #fdcb6e;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(253, 203, 110, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--secondary-light);
+            color: var(--secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: var(--secondary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Counter Section */
+        .counter {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .counter-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: rgba(0, 0, 0, 0.03);
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        [data-theme="dark"] .counter-row {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .counter-label {
+            font-weight: 500;
+            color: var(--text-secondary);
+        }
+
+        .counter-value {
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        /* Copy Status */
+        .copy-status {
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            text-align: center;
+            transition: var(--transition);
+            opacity: 0;
+            height: 0;
+            overflow: hidden;
+        }
+
+        .copy-status.copied {
+            background: var(--success-light);
+            color: var(--success);
+            border: 1px solid var(--success);
+            opacity: 1;
+            height: auto;
+            padding: 10px 15px;
+        }
+
+        .copy-status.error {
+            background: var(--danger-light);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+            opacity: 1;
+            height: auto;
+            padding: 10px 15px;
+        }
+
+        /* Output Section */
+        .output-section {
+            background: var(--card-bg);
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .output-section h3 {
+            margin-bottom: 15px;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .output-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            color: var(--text-secondary);
+        }
+
+        .filter-btn:hover {
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .copy-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-with-tick {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .copy-tick {
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--success);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            opacity: 0;
+        }
+
+        .btn-with-tick.active .copy-tick {
+            right: 5px;
+            opacity: 1;
+        }
+
+        /* Table Styles */
+        #tableContainer {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        #dataTable {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        #dataTable th {
+            background: var(--primary);
+            color: white;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        #dataTable td {
+            padding: 10px 15px;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: top;
+        }
+
+        #dataTable tr:last-child td {
+            border-bottom: none;
+        }
+
+        #dataTable tr:hover td {
+            background: rgba(0, 0, 0, 0.02);
+        }
+
+        [data-theme="dark"] #dataTable tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .ours-status {
+            color: var(--success);
+            font-weight: 600;
+            background-color: var(--success-light);
+        }
+
+        .others-status {
+            color: var(--danger);
+            font-weight: 600;
+            background-color: var(--danger-light);
+        }
+
+        .no-record-status {
+            color: var(--warning);
+            font-weight: 600;
+            background-color: var(--warning-light);
+        }
+
+        .current-copy {
+            animation: highlightRow 1.5s ease;
+        }
+
+        @keyframes highlightRow {
+            0% { background: rgba(108, 92, 231, 0.1); }
+            100% { background: transparent; }
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 16px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            animation: slideUp 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+            overflow: hidden;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+        }
+
+        .close {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close:hover {
+            color: var(--danger);
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 20px;
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+
+        .modal-footer {
+            padding: 15px 20px;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: var(--footer-color);
+            font-size: 0.85rem;
+            padding: 20px 0;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .tool-container {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .output-toolbar {
+                flex-direction: column;
+            }
+            
+            .filter-buttons, .copy-buttons {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+            
+            .btn {
+                flex: 1;
+                justify-content: center;
+            }
+            
+            .counter {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .tool-container {
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.6rem;
+            }
+            
+            .input-box {
+                padding: 15px;
+            }
+            
+            .counter {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal-content {
+                width: 95%;
+            }
+            
+            .modal-footer {
+                flex-direction: column;
+            }
+            
+            .modal-footer .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-phone-alt"></i> Same Day Record Check</h1>
+            <p>Check which agent called a customer first on the same day</p>
+        </div>
+
+        <div class="tool-container">
+            <div class="input-section">
+                <div class="input-box">
+                    <h3><i class="fas fa-database"></i> CC Record Data</h3>
+                    <div class="paste-container">
+                        <div class="paste-area" id="ccDataArea" contenteditable="true" placeholder="Paste your CC record data here..."></div>
+                        <div class="paste-icon" onclick="pasteData('ccDataArea')">
+                            <i class="fas fa-paste"></i> Paste
+                        </div>
+                    </div>
+                    <div class="toolbar">
+                        <button class="btn btn-primary" onclick="processCCData()">
+                            <i class="fas fa-cogs"></i> Process
+                        </button>
+                        <button class="btn btn-danger" onclick="clearCCData()">
+                            <i class="fas fa-trash-alt"></i> Clear
+                        </button>
+                        <button class="btn btn-secondary" onclick="showEditOBIDsModal()">
+                            <i class="fas fa-edit"></i> Edit OB IDs
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="toolbar">
+                <button class="btn btn-success" onclick="showAddScrapModal()">
+                    <i class="fas fa-plus"></i> Add Scrap
+                </button>
+                <button class="btn btn-warning" onclick="addLeadingZeros()">
+                    <i class="fas fa-plus-circle"></i> Add Zeros
+                </button>
+            </div>
+
+            <div id="counter" class="counter">
+                <div class="counter-row">
+                    <span class="counter-label">Current Position:</span>
+                    <span class="counter-value" id="currentPosition">0</span>
+                </div>
+                <div class="counter-row">
+                    <span class="counter-label">Total Numbers:</span>
+                    <span class="counter-value" id="totalNumbers">0</span>
+                </div>
+                <div class="counter-row">
+                    <span class="counter-label">Ours:</span>
+                    <span class="counter-value" id="oursNumbers">0</span>
+                </div>
+                <div class="counter-row">
+                    <span class="counter-label">Others:</span>
+                    <span class="counter-value" id="othersNumbers">0</span>
+                </div>
+                <div class="counter-row">
+                    <span class="counter-label">No Record:</span>
+                    <span class="counter-value" id="noRecordNumbers">0</span>
+                </div>
+            </div>
+
+            <div class="copy-status" id="copyStatus">Ready</div>
+
+            <div class="output-section">
+                <h3>Results</h3>
+                <div class="output-toolbar">
+                    <div class="filter-buttons">
+                        <button class="filter-btn filter-all active" onclick="filterTable('all')">Show All</button>
+                        <button class="filter-btn filter-ours" onclick="filterTable('ours')">Show Ours Only</button>
+                        <button class="filter-btn filter-others" onclick="filterTable('others')">Show Others Only</button>
+                        <button class="filter-btn filter-no-record" onclick="filterTable('no-record')">Show No Record</button>
+                    </div>
+                    <div class="copy-buttons">
+                        <button class="btn btn-primary btn-with-tick" onclick="copyAllData()">
+                            <i class="fas fa-copy"></i> Copy All
+                            <span class="copy-tick"><i class="fas fa-check"></i></span>
+                        </button>
+                        <button class="btn btn-success btn-with-tick" onclick="copyNextNumber()">
+                            <i class="fas fa-arrow-right"></i> Copy Next (#<span id="nextNumberIndex">0</span>)
+                            <span class="copy-tick"><i class="fas fa-check"></i></span>
+                        </button>
+                        <button class="btn btn-secondary btn-with-tick" onclick="copyPreviousNumber()">
+                            <i class="fas fa-arrow-left"></i> Copy Back
+                            <span class="copy-tick"><i class="fas fa-check"></i></span>
+                        </button>
+                        <button class="btn btn-warning btn-with-tick" onclick="startOver()">
+                            <i class="fas fa-redo"></i> Start Over
+                            <span class="copy-tick"><i class="fas fa-check"></i></span>
+                        </button>
+                    </div>
+                </div>
+                <div id="tableContainer" style="overflow-x: auto;">
+                    <table id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>A</th>
+                                <th>B</th>
+                                <th>C</th>
+                                <th>D</th>
+                                <th>E</th>
+                                <th>F (Status)</th>
+                                <th>G (Agent ID)</th>
+                                <th>H (Remarks)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+                            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+                            <tr><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Scrap Modal -->
+    <div id="addScrapModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add Scrap Data</h2>
+                <span class="close" onclick="closeAddScrapModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="paste-container">
+                    <div class="paste-area" id="scrapDataArea" contenteditable="true" placeholder="Paste your scrap data here..."></div>
+                    <div class="paste-icon" onclick="pasteData('scrapDataArea')">
+                        <i class="fas fa-paste"></i> Paste
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeAddScrapModal()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button class="btn btn-primary" onclick="addScrapData()">
+                    <i class="fas fa-plus"></i> Add
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit OB IDs Modal -->
+    <div id="editOBIDsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Edit OB Agent IDs</h2>
+                <span class="close" onclick="closeEditOBIDsModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="paste-container">
+                    <div class="paste-area" id="obIDsArea" contenteditable="true" placeholder="Enter OB Agent IDs, one per line..."></div>
+                </div>
+                <p style="margin-top: 10px; font-size: 0.8rem; color: var(--text-secondary);">
+                    These IDs will be marked as "Ours" when found in CC data
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="resetDefaultOBIDs()">
+                    <i class="fas fa-undo"></i> Reset Default
+                </button>
+                <button class="btn btn-danger" onclick="closeEditOBIDsModal()">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button class="btn btn-primary" onclick="saveOBIDs()">
+                    <i class="fas fa-save"></i> Save
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        © Workflow Tools 2025 | Data is processed in your browser only (not saved to server)
+    </footer>
+
+    <script>
+        // Store processed data for later use
+        let scrapData = [];
+        let currentIndex = 0;
+        let obAgentIDs = new Set([45000]); // Default OB Agent ID
+        let isDarkMode = false;
+        let currentFilter = 'all';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load saved OB Agent IDs from localStorage if available
+            const savedOBIDs = localStorage.getItem('obAgentIDs');
+            if (savedOBIDs) {
+                obAgentIDs = new Set(JSON.parse(savedOBIDs));
+            }
+            
+            // Check for saved theme preference
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                enableDarkMode();
+            }
+
+            // Add keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                // Ctrl+Enter for Copy Next
+                if (e.ctrlKey && e.key === 'Enter') {
+                    e.preventDefault();
+                    copyNextNumber();
+                }
+                
+                // Ctrl+Backspace for Copy Back
+                if (e.ctrlKey && e.key === 'Backspace') {
+                    e.preventDefault();
+                    copyPreviousNumber();
+                }
+                
+                // Ctrl+Shift+Enter for Start Over
+                if (e.ctrlKey && e.shiftKey && e.key === 'Enter') {
+                    e.preventDefault();
+                    startOver();
+                }
+            });
+        });
+
+        // Theme toggle functionality
+        document.getElementById('themeToggle').addEventListener('click', function() {
+            isDarkMode = !isDarkMode;
+            if (isDarkMode) {
+                enableDarkMode();
+                localStorage.setItem('darkMode', 'enabled');
+            } else {
+                disableDarkMode();
+                localStorage.setItem('darkMode', 'disabled');
+            }
+        });
+
+        function enableDarkMode() {
+            document.body.setAttribute('data-theme', 'dark');
+            document.getElementById('themeToggle').innerHTML = '<i class="fas fa-sun"></i>';
+            isDarkMode = true;
+        }
+
+        function disableDarkMode() {
+            document.body.removeAttribute('data-theme');
+            document.getElementById('themeToggle').innerHTML = '<i class="fas fa-moon"></i>';
+            isDarkMode = false;
+        }
+
+        function startOver() {
+            currentIndex = 0;
+            updateCounter();
+            showCopyStatus('Reset to start position', true);
+        }
+
+        async function pasteData(areaId) {
+            try {
+                const clipboardItems = await navigator.clipboard.read();
+                for (const clipboardItem of clipboardItems) {
+                    for (const type of clipboardItem.types) {
+                        if (type === 'text/plain') {
+                            const blob = await clipboardItem.getType(type);
+                            const text = await blob.text();
+                            
+                            // Get current selection/cursor position
+                            const pasteArea = document.getElementById(areaId);
+                            const selection = window.getSelection();
+                            const currentText = pasteArea.textContent;
+                            
+                            // Add separator if there's existing content
+                            const separator = currentText && !currentText.endsWith('\n') ? '\n' : '';
+                            
+                            if (!selection.isCollapsed) {
+                                // Replace selection
+                                const range = selection.getRangeAt(0);
+                                range.deleteContents();
+                                range.insertNode(document.createTextNode(separator + text));
+                            } else {
+                                // Append at cursor
+                                const cursorPos = selection.anchorOffset;
+                                pasteArea.textContent = currentText.slice(0, cursorPos) + separator + text + currentText.slice(cursorPos);
+                            }
+                            
+                            // Move cursor to end of pasted content
+                            const range = document.createRange();
+                            range.selectNodeContents(pasteArea);
+                            range.collapse(false);
+                            selection.removeAllRanges();
+                            selection.addRange(range);
+                            
+                            return;
+                        }
+                    }
+                }
+                showCopyStatus('No text data found in clipboard', false);
+            } catch (err) {
+                console.error('Failed to read clipboard:', err);
+                document.getElementById(areaId).focus();
+                showCopyStatus('Please use Ctrl+V to paste your data into the input box', false);
+            }
+        }
+
+        // Normalize phone numbers by removing all non-digit characters
+        function normalizePhoneNumber(phone) {
+            if (!phone) return '';
+            // Remove all non-digit characters
+            return phone.replace(/\D/g, '');
+        }
+
+        function showAddScrapModal() {
+            document.getElementById('addScrapModal').style.display = 'flex';
+            document.getElementById('scrapDataArea').focus();
+        }
+
+        function closeAddScrapModal() {
+            document.getElementById('addScrapModal').style.display = 'none';
+        }
+
+        function addScrapData() {
+            const scrapDataText = document.getElementById('scrapDataArea').textContent.trim();
+            
+            if (!scrapDataText) {
+                showCopyStatus('Please paste scrap data before adding', false);
+                return;
+            }
+
+            // Parse scrap data (tab-separated columns)
+            const scrapRows = scrapDataText.split(/\r\n|\n|\r/).filter(row => row.trim() !== '');
+            
+            scrapData = scrapRows.map(row => {
+                const columns = row.split(/\t/);
+                let phoneNumber = columns[0] ? columns[0].trim() : '';
+                
+                return {
+                    columns: columns,
+                    number: phoneNumber,
+                    normalizedNumber: normalizePhoneNumber(phoneNumber),
+                    status: 'No Record',
+                    agentId: '',
+                    remarks: 'Not processed yet'
+                };
+            });
+
+            // Reset current index
+            currentIndex = 0;
+            
+            // Render the table
+            renderTable(scrapData);
+            
+            // Update counter
+            updateCounter();
+            
+            // Close the modal and clear the textarea
+            closeAddScrapModal();
+            document.getElementById('scrapDataArea').textContent = '';
+            
+            showCopyStatus(`Added ${scrapData.length} numbers from scrap data`, true);
+        }
+
+        function addLeadingZeros() {
+            if (scrapData.length === 0) {
+                showCopyStatus('No scrap data to process. Please add scrap data first.', false);
+                return;
+            }
+            
+            let modifiedCount = 0;
+            
+            scrapData.forEach(item => {
+                // Check if the number is missing leading zero (Pakistan number pattern)
+                const normalized = normalizePhoneNumber(item.number);
+                if (/^3\d{9}$/.test(normalized)) {
+                    item.number = '0' + normalized;
+                    item.normalizedNumber = normalized;
+                    modifiedCount++;
+                } else if (/^\d{10}$/.test(normalized)) {
+                    item.normalizedNumber = normalized;
+                }
+            });
+            
+            if (modifiedCount > 0) {
+                renderTable(scrapData);
+                showCopyStatus(`Added leading zeros to ${modifiedCount} numbers`, true);
+            } else {
+                showCopyStatus('No numbers needed leading zeros added', true);
+            }
+        }
+
+        function processCCData() {
+            const ccDataText = document.getElementById('ccDataArea').textContent.trim();
+            
+            if (!ccDataText) {
+                showCopyStatus('Please paste CC record data before processing', false);
+                return;
+            }
+
+            if (scrapData.length === 0) {
+                showCopyStatus('Please add scrap data first', false);
+                return;
+            }
+
+            // Parse CC data to extract phone numbers, staff IDs, and call times
+            const ccRows = ccDataText.split(/\r\n|\n|\r/).filter(row => row.trim() !== '');
+            
+            // Create a map to track the earliest call for each number
+            const numberCallMap = new Map();
+            
+            // Process each CC record
+            ccRows.forEach(row => {
+                const columns = row.split(/\t/);
+                
+                // Extract phone number (usually in column G or similar)
+                let phoneNumber = '';
+                if (columns.length >= 7) {
+                    phoneNumber = normalizePhoneNumber(columns[6]);
+                } else {
+                    // If not enough columns, try to find any phone number in the row
+                    const phoneMatch = row.match(/\b\d{10,11}\b/);
+                    if (phoneMatch) phoneNumber = normalizePhoneNumber(phoneMatch[0]);
+                }
+                
+                if (!phoneNumber) return;
+                
+                // Extract staff ID (usually in column O or similar)
+                let staffId = null;
+                if (columns.length >= 15) {
+                    const idMatch = columns[14].match(/\b\d{4,5}\b/);
+                    if (idMatch) staffId = parseInt(idMatch[0]);
+                } else {
+                    // If not enough columns, try to find any ID in the row
+                    const idMatch = row.match(/\b\d{4,5}\b/);
+                    if (idMatch) staffId = parseInt(idMatch[0]);
+                }
+                
+                // Extract call time (usually in column C or similar)
+                let callTime = null;
+                if (columns.length >= 3) {
+                    const timeMatch = columns[2].match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/);
+                    if (timeMatch) callTime = new Date(timeMatch[0]);
+                } else {
+                    // If not enough columns, try to find any timestamp in the row
+                    const timeMatch = row.match(/\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}/);
+                    if (timeMatch) callTime = new Date(timeMatch[0]);
+                }
+                
+                if (!callTime || isNaN(callTime.getTime())) return;
+                
+                // Check if we already have an earlier call for this number
+                if (numberCallMap.has(phoneNumber)) {
+                    const existingCall = numberCallMap.get(phoneNumber);
+                    if (callTime < existingCall.time) {
+                        numberCallMap.set(phoneNumber, { time: callTime, staffId: staffId });
+                    }
+                } else {
+                    numberCallMap.set(phoneNumber, { time: callTime, staffId: staffId });
+                }
+            });
+
+            // Process scrap data against the call records
+            let processedCount = 0;
+            
+            scrapData.forEach(item => {
+                if (numberCallMap.has(item.normalizedNumber)) {
+                    const callInfo = numberCallMap.get(item.normalizedNumber);
+                    item.agentId = callInfo.staffId || '';
+                    
+                    if (callInfo.staffId && obAgentIDs.has(callInfo.staffId)) {
+                        item.status = 'Ours';
+                        item.remarks = `Our agent ${callInfo.staffId} called first at ${callInfo.time.toLocaleString()}`;
+                    } else if (callInfo.staffId) {
+                        item.status = 'Others';
+                        item.remarks = `Other agent ${callInfo.staffId} called first at ${callInfo.time.toLocaleString()}`;
+                    } else {
+                        item.status = 'Others';
+                        item.remarks = `Unknown agent called first at ${callInfo.time.toLocaleString()}`;
+                    }
+                    processedCount++;
+                } else {
+                    item.status = 'No Record';
+                    item.remarks = 'No call record found for this number';
+                }
+            });
+
+            // Render the updated table
+            renderTable(scrapData);
+            
+            // Update counter
+            updateCounter();
+            
+            if (processedCount > 0) {
+                showCopyStatus(`Processed ${processedCount} numbers from CC data`, true);
+            } else {
+                showCopyStatus('No matching numbers found in CC data', false);
+            }
+        }
+
+        function renderTable(data) {
+            const table = document.getElementById('dataTable');
+            const tbody = table.querySelector('tbody');
+            tbody.innerHTML = '';
+            
+            if (data.length === 0) {
+                // Add empty rows for better UI
+                for (let i = 0; i < 3; i++) {
+                    const row = document.createElement('tr');
+                    for (let j = 0; j < 8; j++) {
+                        const td = document.createElement('td');
+                        td.innerHTML = '&nbsp;';
+                        row.appendChild(td);
+                    }
+                    tbody.appendChild(row);
+                }
+                return;
+            }
+            
+            data.forEach((item, index) => {
+                // Skip if filtered
+                if (currentFilter === 'ours' && item.status !== 'Ours') return;
+                if (currentFilter === 'others' && item.status !== 'Others') return;
+                if (currentFilter === 'no-record' && item.status !== 'No Record') return;
+                
+                const row = document.createElement('tr');
+                row.dataset.index = index;
+                
+                // Highlight current copied row
+                if (index === currentIndex - 1) {
+                    row.classList.add('current-copy');
+                    setTimeout(() => {
+                        row.classList.remove('current-copy');
+                    }, 500);
+                }
+                
+                // Add all columns from scrap data
+                for (let i = 0; i < 5 && i < item.columns.length; i++) {
+                    const cell = document.createElement('td');
+                    cell.textContent = item.columns[i] || '';
+                    row.appendChild(cell);
+                }
+                
+                // Add empty cells if there are fewer than 5 columns
+                for (let i = item.columns.length; i < 5; i++) {
+                    const cell = document.createElement('td');
+                    cell.innerHTML = '&nbsp;';
+                    row.appendChild(cell);
+                }
+                
+                // Add status cell
+                const statusCell = document.createElement('td');
+                statusCell.textContent = item.status;
+                if (item.status === 'Ours') {
+                    statusCell.classList.add('ours-status');
+                } else if (item.status === 'Others') {
+                    statusCell.classList.add('others-status');
+                } else {
+                    statusCell.classList.add('no-record-status');
+                }
+                row.appendChild(statusCell);
+                
+                // Add agent ID cell
+                const agentIdCell = document.createElement('td');
+                agentIdCell.textContent = item.agentId || '';
+                row.appendChild(agentIdCell);
+                
+                // Add remarks cell
+                const remarksCell = document.createElement('td');
+                remarksCell.textContent = item.remarks;
+                row.appendChild(remarksCell);
+                
+                tbody.appendChild(row);
+            });
+        }
+
+        function filterTable(filter) {
+            currentFilter = filter;
+            
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`.filter-${filter}`).classList.add('active');
+            
+            // Re-render table
+            renderTable(scrapData);
+        }
+
+        function updateCounter() {
+            document.getElementById('currentPosition').textContent = currentIndex + 1;
+            document.getElementById('totalNumbers').textContent = scrapData.length;
+            
+            const oursCount = scrapData.filter(item => item.status === 'Ours').length;
+            const othersCount = scrapData.filter(item => item.status === 'Others').length;
+            const noRecordCount = scrapData.filter(item => item.status === 'No Record').length;
+            
+            document.getElementById('oursNumbers').textContent = oursCount;
+            document.getElementById('othersNumbers').textContent = othersCount;
+            document.getElementById('noRecordNumbers').textContent = noRecordCount;
+            
+            // Update next number index
+            document.getElementById('nextNumberIndex').textContent = currentIndex + 1;
+        }
+
+        function clearCCData() {
+            document.getElementById('ccDataArea').textContent = '';
+        }
+
+        function copyAllData() {
+            if (scrapData.length === 0) {
+                showCopyStatus('No data to copy. Please add scrap data first.', false);
+                return;
+            }
+            
+            // Filter data based on current filter
+            let filteredData = scrapData;
+            if (currentFilter === 'ours') {
+                filteredData = scrapData.filter(item => item.status === 'Ours');
+            } else if (currentFilter === 'others') {
+                filteredData = scrapData.filter(item => item.status === 'Others');
+            } else if (currentFilter === 'no-record') {
+                filteredData = scrapData.filter(item => item.status === 'No Record');
+            }
+            
+            // Create CSV-like text with all columns (excluding headers)
+            const rows = filteredData.map(item => [
+                ...item.columns.slice(0, 5),
+                item.status,
+                item.agentId,
+                item.remarks
+            ]);
+            
+            // Ensure we have 5 columns for each row
+            rows.forEach(row => {
+                while (row.length < 5) row.push('');
+                row.push(row[5] || ''); // Status
+                row.push(row[6] || ''); // Agent ID
+                row.push(row[7] || ''); // Remarks
+            });
+            
+            const csvContent = rows.map(row => row.join('\t')).join('\n');
+            
+            navigator.clipboard.writeText(csvContent).then(() => {
+                const tick = document.querySelector('.output-toolbar .btn-with-tick').classList.add('active');
+                setTimeout(() => {
+                    document.querySelector('.output-toolbar .btn-with-tick').classList.remove('active');
+                }, 2000);
+                
+                showCopyStatus(`Copied ${filteredData.length} items to clipboard (without headers)`, true);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                showCopyStatus('Failed to copy data. Please try again.', false);
+            });
+        }
+
+        function copyNextNumber() {
+            if (scrapData.length === 0) {
+                showCopyStatus('No data to copy. Please add scrap data first.', false);
+                return;
+            }
+            
+            if (currentIndex >= scrapData.length) {
+                currentIndex = 0; // Reset to start
+            }
+            
+            const item = scrapData[currentIndex];
+            const numberToCopy = item.number;
+            
+            navigator.clipboard.writeText(numberToCopy).then(() => {
+                const tick = document.querySelectorAll('.btn-with-tick')[1].classList.add('active');
+                setTimeout(() => {
+                    document.querySelectorAll('.btn-with-tick')[1].classList.remove('active');
+                }, 2000);
+                
+                showCopyStatus(`Copied: ${numberToCopy} (${item.status})`, true);
+                
+                // Move to next number
+                currentIndex++;
+                
+                // Update counter
+                updateCounter();
+                
+                // Re-render table to show highlight
+                renderTable(scrapData);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                showCopyStatus('Failed to copy number. Please try again.', false);
+            });
+        }
+
+        function copyPreviousNumber() {
+            if (scrapData.length === 0) {
+                showCopyStatus('No data to copy. Please add scrap data first.', false);
+                return;
+            }
+            
+            if (currentIndex <= 0) {
+                currentIndex = scrapData.length; // Start from end
+            }
+            
+            currentIndex--;
+            const item = scrapData[currentIndex];
+            const numberToCopy = item.number;
+            
+            navigator.clipboard.writeText(numberToCopy).then(() => {
+                const tick = document.querySelectorAll('.btn-with-tick')[2].classList.add('active');
+                setTimeout(() => {
+                    document.querySelectorAll('.btn-with-tick')[2].classList.remove('active');
+                }, 2000);
+                
+                showCopyStatus(`Copied: ${numberToCopy} (${item.status})`, true);
+                
+                // Update counter
+                updateCounter();
+                
+                // Re-render table to show highlight
+                renderTable(scrapData);
+            }).catch(err => {
+                console.error('Failed to copy:', err);
+                showCopyStatus('Failed to copy number. Please try again.', false);
+            });
+        }
+
+        function showCopyStatus(message, isSuccess) {
+            const copyStatus = document.getElementById('copyStatus');
+            copyStatus.textContent = message;
+            
+            if (isSuccess) {
+                copyStatus.className = 'copy-status copied';
+            } else {
+                copyStatus.className = 'copy-status error';
+            }
+            
+            // Auto-hide after 3 seconds
+            setTimeout(() => {
+                copyStatus.className = 'copy-status';
+                copyStatus.textContent = '';
+            }, 3000);
+        }
+
+        function showEditOBIDsModal() {
+            const modal = document.getElementById('editOBIDsModal');
+            const obIDsArea = document.getElementById('obIDsArea');
+            
+            // Populate the textarea with current OB Agent IDs
+            obIDsArea.textContent = Array.from(obAgentIDs).join('\n');
+            
+            modal.style.display = 'flex';
+            obIDsArea.focus();
+        }
+
+        function closeEditOBIDsModal() {
+            document.getElementById('editOBIDsModal').style.display = 'none';
+        }
+
+        function resetDefaultOBIDs() {
+            // Reset to default OB Agent ID
+            obAgentIDs = new Set([45000]);
+            
+            document.getElementById('obIDsArea').textContent = Array.from(obAgentIDs).join('\n');
+            showCopyStatus('Default OB Agent ID (45000) has been restored.', true);
+        }
+
+        function saveOBIDs() {
+            const obIDsText = document.getElementById('obIDsArea').textContent.trim();
+            
+            if (!obIDsText) {
+                showCopyStatus('Please enter at least one OB Agent ID', false);
+                return;
+            }
+            
+            // Parse the IDs (one per line, numeric only)
+            const newIDs = obIDsText.split(/\r\n|\n|\r/)
+                .map(id => id.trim())
+                .filter(id => /^\d+$/.test(id))
+                .map(id => parseInt(id));
+            
+            if (newIDs.length === 0) {
+                showCopyStatus('No valid OB Agent IDs found. Please enter numeric IDs only.', false);
+                return;
+            }
+            
+            // Update the OB Agent IDs set
+            obAgentIDs = new Set(newIDs);
+            
+            // Save to localStorage
+            localStorage.setItem('obAgentIDs', JSON.stringify(Array.from(obAgentIDs)));
+            
+            closeEditOBIDsModal();
+            showCopyStatus(`Saved ${obAgentIDs.size} OB Agent IDs. They will be marked as "Ours".`, true);
+        }
+
+        // Handle paste events for text areas
+        document.getElementById('ccDataArea').addEventListener('paste', function(e) {
+            e.preventDefault();
+            const text = (e.clipboardData || window.clipboardData).getData('text');
+            const selection = window.getSelection();
+            const currentText = this.textContent;
+            
+            // Add separator if there's existing content
+            const separator = currentText && !currentText.endsWith('\n') ? '\n' : '';
+            
+            if (!selection.isCollapsed) {
+                // Replace selection
+                const range = selection.getRangeAt(0);
+                range.deleteContents();
+                range.insertNode(document.createTextNode(separator + text));
+            } else {
+                // Append at cursor
+                const cursorPos = selection.anchorOffset;
+                this.textContent = currentText.slice(0, cursorPos) + separator + text + currentText.slice(cursorPos);
+            }
+            
+            // Move cursor to end of pasted content
+            const range = document.createRange();
+            range.selectNodeContents(this);
+            range.collapse(false);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        });
+        
+        document.getElementById('scrapDataArea').addEventListener('paste', function(e) {
+            e.preventDefault();
+            const text = (e.clipboardData || window.clipboardData).getData('text');
+            const selection = window.getSelection();
+            const currentText = this.textContent;
+            
+            // Add separator if there's existing content
+            const separator = currentText && !currentText.endsWith('\n') ? '\n' : '';
+            
+            if (!selection.isCollapsed) {
+                // Replace selection
+                const range = selection.getRangeAt(0);
+                range.deleteContents();
+                range.insertNode(document.createTextNode(separator + text));
+            } else {
+                // Append at cursor
+                const cursorPos = selection.anchorOffset;
+                this.textContent = currentText.slice(0, cursorPos) + separator + text + currentText.slice(cursorPos);
+            }
+            
+            // Move cursor to end of pasted content
+            const range = document.createRange();
+            range.selectNodeContents(this);
+            range.collapse(false);
+            selection.removeAllRanges();
+            selection.addRange(range);
+        });
+    </script>
+</body>
+</html>
